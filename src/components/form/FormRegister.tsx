@@ -1,17 +1,10 @@
 'use client';
 import { useRouter } from "next/navigation";
 import FormLogin from "./FormLogin";
+import { AppStateProvider } from "@/context/AppProvider";
 
-type Props = {
-  email: string;
-  password: string;
-  userName: string;
-  setEmail: (e: string) => void;
-  setPassword: (e: string) => void;
-  setUserName: (e: string) => void;
-}
-
-export default function FormRegister({ email, password, userName, setEmail, setPassword, setUserName }: Props) {
+export default function FormRegister() {
+  const { userName, setUserName } = AppStateProvider();
   const router = useRouter();
   const redirect = () => {
     router.push('/home');
@@ -32,7 +25,7 @@ export default function FormRegister({ email, password, userName, setEmail, setP
           onChange={(e) => setUserName(e.target.value)}
         />
       </label>
-      <FormLogin email={email} password={password} setEmail={setEmail} setPassword={setPassword} />
+      <FormLogin />
     </>
   );
 }
