@@ -1,14 +1,10 @@
 'use client';
+import { AppStateProvider } from "@/context/AppProvider";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-type Props = {
-  email: string;
-  password: string;
-  setEmail: (e: string) => void;
-  setPassword: (e: string) => void;
-}
 
-export default function FormLogin({ email, password, setEmail, setPassword }: Props) {
+export default function FormLogin() {
+  const { email, setEmail, password, setPassword } = AppStateProvider();
   const [isHidden, setIsHidden] = useState(true);
 
   const router = useRouter();
