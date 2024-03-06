@@ -13,7 +13,7 @@ export default function FormLogin() {
   const router = useRouter();
 
   const redirect = () => {
-    router.push('/home');
+    router.push('/listphones');
   }
 
   return (

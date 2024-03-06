@@ -39,7 +39,7 @@ export default function Home() {
       const res = await fetchLogin(action);
       if (res) {
         setWaning('Sucesso!');
-        router.push('/home');
+        router.push('/listphones');
       } else {
         handleWaning('Usuário ou senha incorretos!');
       }
