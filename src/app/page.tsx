@@ -9,35 +9,46 @@ import { useState } from "react";
 
 
 export default function Home() {
-  const { email, password, userName } = AppStateProvider();
+  const { email, password, userName, fetchLogin } = AppStateProvider();
   const [isLogin, setIsLogin] = useState(true);
-  const [error, setError] = useState('');
+  const [warning, setWaning] = useState('');
 
   const router = useRouter();
 
-  const validateTextFieds = (e: any, text: string) => {
-    e.preventDefault();
-    const re = /\S+@\S+\.\S+/;
-    if (!re.test(email) || password.length < 6 || !isLogin && userName.length < 3) {
-      setError(text);
-      setTimeout(() => {
-        setError('');
-      }
-      , 2000);
-      return null;
+  const handleWaning = (message: string) => {
+    setWaning(message);
+    setTimeout(() => {
+      setWaning('');
     }
-    // esperar resposta do banco e redirecionar para home
-    router.push('/home');
+    , 2000);
   }
 
-  const handleLogin = (e: any) => {
+  const validateTextFieds = (): boolean => {
+    const re = /\S+@\S+\.\S+/;
+    if (!re.test(email) || password.length < 6 || !isLogin && userName.length < 3) {
+      handleWaning('Preencha os campos corretamente!');
+      return false;
+    }
+    return true;
+  }
+
+  const handleLogin = async (e: any, action: string) => {
+    e.preventDefault();
+    const response = validateTextFieds();
+    if (response) {
+      const res = await fetchLogin(action);
+      if (res) {
+        setWaning('Sucesso!');
+        router.push('/home');
+      } else {
+        handleWaning('Usuário ou senha incorretos!');
+      }
+    }
+  }
+
+  const changeButton = (e: any) => {
     e.preventDefault();
     setIsLogin(!isLogin);
-    // setTimeout(() => {
-    //   setIsLogin(true);
-    //   router.push('/home');
-    // }
-    // , 2000);
   }
 
   return (
@@ -51,20 +62,20 @@ export default function Home() {
           className="text-2xl font-bold text-center text-slate-900"
         >LexartLabs</h1>
         {isLogin ? <FormLogin /> :  <FormRegister />}
-        <small className="text-red-500 relative bottom-10 h-5">{error}</small>
+        <small className={`${warning === 'Sucesso!' ? 'text-green-700' : 'text-red-500'} relative bottom-10 h-5`}>{warning}</small>
         <div
           className="flex justify-between"
         >
           {isLogin ? (
-            <ButtonSlate name="Registrar" handleClick={handleLogin} />
+            <ButtonSlate name="Registrar" handleClick={changeButton} />
           ) : (
-            <ButtonSlate name="Voltar" handleClick={handleLogin} />
+            <ButtonSlate name="Voltar" handleClick={changeButton} />
           
           )}
           {isLogin ? (
-            <ButtonGreen name="Entrar" text="Email ou senha incorretos!" handleClick={validateTextFieds}/>
+            <ButtonGreen name="Entrar" handleClick={handleLogin}/>
           ) : (
-            <ButtonGreen name="Criar" text="Campos Invalidos" handleClick={validateTextFieds}/>
+            <ButtonGreen name="Criar" handleClick={handleLogin}/>
           )}
         </div>
       </form>
