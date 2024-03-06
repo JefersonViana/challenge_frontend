@@ -2,6 +2,9 @@
 import { AppStateProvider } from "@/context/AppProvider";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import visible from '../../assets/icons8-eye-24.png';
+import invisible from '../../assets/icons8-invisível-24.png';
+import Image from "next/image";
 
 export default function FormLogin() {
   const { email, setEmail, password, setPassword } = AppStateProvider();
@@ -44,7 +47,21 @@ export default function FormLogin() {
           className="text-slate-500 text-sm relative left-56 bottom-11 w-8 h-9 p-1"
           type="button"
           onClick={() => setIsHidden(!isHidden)}
-        >{isHidden ? '🏀' : '🏐'}</button>
+        >{isHidden ? (
+          <Image
+            src={visible}
+            alt="visible"
+            width={18}
+            height={18}
+          />
+        ) : (
+          <Image
+            src={invisible}
+            alt="invisible"
+            width={18}
+            height={18}
+          />
+        )}</button>
       </label>
     </>
   );
