@@ -7,7 +7,7 @@ type Props = {
 export default function Info({ text }: Props) {
   return (
     <div
-      className="w-full h-screen flex items-center justify-center"
+      className="w-full h-screen flex items-center justify-center absolute"
     >
       <h1
         className="text-white font-bold"
