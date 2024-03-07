@@ -1,5 +1,5 @@
 'use client';
-import { requestLogin, requestRegister, requestDeletePhones, requestAllPhones } from '@/api/requests';
+import { requestLogin, requestRegister, requestDeletePhones, requestAllPhones, requestAddPhones } from '@/api/requests';
 import React, { ReactNode, createContext, useState, useMemo, useContext, useEffect } from 'react';
 
 export const AppContext = createContext<any>({} as any);
@@ -40,6 +40,17 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     return false;
   };
 
+  const fetchAddPhones = async (list: any): Promise<boolean> => {
+    const token = localStorage.getItem('token');
+    const response = await requestAddPhones(list, token);
+    if (response) {
+      setListPhones(response.data);
+      localStorage.setItem('phones', JSON.stringify(response.data));
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     console.log('AppProvider mounted');
   }, []);
@@ -55,6 +66,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setListPhones,
     listPhones,
     fetchDeletePhones,
+    fetchAddPhones,
   }), [email, userName, password, listPhones]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
