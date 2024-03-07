@@ -40,6 +40,27 @@ const requestRegister = async (email: string, password: string, username: string
   }
 }
 
+const requestAddPhones = async (list: any, token: string | null) => {
+  try {
+    console.log(list)
+    const res = await fetch(PHONES_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify(list),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+    return null;
+  } catch (error) {
+    return null;
+  }
+}
+
 const requestDeletePhones = async (id: number, token: string | null) => {
   try {
     const res = await fetch(`${PHONES_URL}${id}`, {
@@ -78,4 +99,4 @@ const requestAllPhones = async (token: string | null) => {
   }
 }
 
-export { requestLogin, requestRegister, requestDeletePhones, requestAllPhones }
+export { requestLogin, requestRegister, requestDeletePhones, requestAllPhones, requestAddPhones }

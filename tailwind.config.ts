@@ -21,6 +21,7 @@ const config: Config = {
       },
       height: {
         "9/10": '90%',
+        "30": "35%,"
       },
       spacing: {
         '22': '5.6rem',
