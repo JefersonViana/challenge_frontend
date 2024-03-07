@@ -34,10 +34,12 @@ export default function ListPhones() {
     >
       <Filters setList={setList} />
       <section className="flex flex-col mt-8 items-center justify-center w-85">
-        {list.map((phone: any) => (
-          <Card phone={phone} key={phone.id} deleteCard={deleteCard}/>
-        ))}
+        {list.length > 1 ? (
+          list.map((phone: any) => (
+            <Card phone={phone} key={phone.id} deleteCard={deleteCard}/>
+          ))
+        ) : <Info text="Lista Vazia!" />}
       </section>
     </div>
-  ): <Info text="Usuário não autenticado!" />);
+  ): <Info text="Carregando..." />);
 }
