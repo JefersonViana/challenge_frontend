@@ -5,11 +5,13 @@ import iconDelete from '../../assets/icons8-lixeira-24.png';
 import iconEdit from '../../assets/icons8-editar-48.png';
 import { useRouter, usePathname } from 'next/navigation';
 
-export default function Card({ phone }: any): JSX.Element {
+type Props = {
+  phone: any;
+  deleteCard: (id: number) => void;
+}
+
+export default function Card({ phone, deleteCard }: Props): JSX.Element {
   const { push } = useRouter();
-  const handleDelete = () => {
-    console.log('deletar')
-  }
 
   return (
     <div
@@ -60,7 +62,7 @@ export default function Card({ phone }: any): JSX.Element {
           </button>
           <button
             className="absolute right-0"
-            onClick={handleDelete}
+            onClick={() => deleteCard(phone.id)}
             type='button'
           >
             <Image

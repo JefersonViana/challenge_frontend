@@ -6,11 +6,17 @@ import Filters from "@/components/filters/Filters";
 
 export default function ListPhones() {
   const [list, setList] = useState<any>([]);
-  const { listPhones } = AppStateProvider();
+  const { listPhones, fetchDeletePhones } = AppStateProvider();
   
   useEffect(() => {
     setList(listPhones);
   }, []);
+
+  const deleteCard = async (id: number) => {
+    const newList = list.filter((phone: any) => phone.id !== id);
+    setList([...newList]);
+    await fetchDeletePhones(id);
+  }
 
   return (
     <div
@@ -19,7 +25,7 @@ export default function ListPhones() {
       <Filters setList={setList} />
       <section className="flex flex-col mt-8 items-center justify-center w-85">
         {list.map((phone: any) => (
-          <Card phone={phone} key={phone.id} />
+          <Card phone={phone} key={phone.id} deleteCard={deleteCard}/>
         ))}
       </section>
     </div>
