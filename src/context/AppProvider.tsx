@@ -19,6 +19,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     
     if (response) {
       localStorage.setItem('token', response.token);
+      localStorage.setItem('phones', JSON.stringify(response.data));
       setListPhones(response.data);
       setEmail('');
       setPassword('');
@@ -32,6 +33,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const response = await requestDeletePhones(id, token);
     if (response) {
       setListPhones(response.data);
+      localStorage.setItem('phones', JSON.stringify(response.data));
       return true;
     }
     return false;

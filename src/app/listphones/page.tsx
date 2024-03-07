@@ -3,13 +3,23 @@ import { AppStateProvider } from "@/context/AppProvider";
 import Card from '../../components/card/Card';
 import { useEffect, useState } from "react";
 import Filters from "@/components/filters/Filters";
+import { useRouter } from "next/navigation";
+import Info from "@/components/info/Info";
 
 export default function ListPhones() {
   const [list, setList] = useState<any>([]);
-  const { listPhones, fetchDeletePhones } = AppStateProvider();
+  const [isvalidate, setIsValidate] = useState<boolean>(false);
+  const { fetchDeletePhones } = AppStateProvider();
+  const { push } = useRouter();
   
   useEffect(() => {
-    setList(listPhones);
+    const phones = localStorage.getItem('phones');
+    if (phones) {
+      setList(JSON.parse(phones));
+      setIsValidate(true);
+    } else {
+      push('/');
+    }
   }, []);
 
   const deleteCard = async (id: number) => {
@@ -18,7 +28,7 @@ export default function ListPhones() {
     await fetchDeletePhones(id);
   }
 
-  return (
+  return (isvalidate ? (
     <div
       className="flex flex-col items-center justify-center w-full bg-slate-900"
     >
@@ -29,5 +39,5 @@ export default function ListPhones() {
         ))}
       </section>
     </div>
-  );
+  ): <Info text="Usuário não autenticado!" />);
 }
