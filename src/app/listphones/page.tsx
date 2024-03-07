@@ -17,7 +17,7 @@ export default function ListPhones() {
       className="flex flex-col items-center justify-center w-full bg-slate-900"
     >
       <Filters setList={setList} />
-      <section className="flex flex-col items-center justify-center w-85">
+      <section className="flex flex-col mt-8 items-center justify-center w-85">
         {list.map((phone: any) => (
           <Card phone={phone} key={phone.id} />
         ))}
