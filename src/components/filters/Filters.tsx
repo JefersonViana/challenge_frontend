@@ -72,9 +72,6 @@ export default function Filters({ setList }: Props) {
         className="flex items-center justify-around"
       >
         <button
-          className="py-2 px-4 rounded-md bg-slate-200 text-black"
-        >Marca</button>
-        <button
           type="button"
           className="py-2 px-4 rounded-md bg-slate-200 text-black"
           onClick={() => handlePrice('menor')}
