@@ -29,7 +29,7 @@ export default function Edit() {
       {isLoading && (
         <div className="flex flex-col items-center justify-center w-85 h-[50%]">
           <h1 className="text-white">Visualização</h1>
-          <Card phone={phone} />
+          <Card phone={phone} deleteCard={() => {}} />
         </div>
       )}
     </div>
