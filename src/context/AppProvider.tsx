@@ -23,6 +23,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       setListPhones(response.data);
       setEmail('');
       setPassword('');
+      setUserName('');
       return true;
     }
     return false;

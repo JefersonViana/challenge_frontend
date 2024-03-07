@@ -9,7 +9,7 @@ import { useState } from "react";
 
 
 export default function Home() {
-  const { email, password, userName, fetchLogin } = AppStateProvider();
+  const { email, password, userName, fetchLogin, setUserName } = AppStateProvider();
   const [isLogin, setIsLogin] = useState(true);
   const [warning, setWaning] = useState('');
 
@@ -48,6 +48,7 @@ export default function Home() {
 
   const changeButton = (e: any) => {
     e.preventDefault();
+    setUserName(!isLogin ? '' : userName);
     setIsLogin(!isLogin);
   }
 
