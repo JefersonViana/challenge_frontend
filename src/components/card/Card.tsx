@@ -3,17 +3,10 @@ import React, { JSX } from 'react';
 import Image from 'next/image';
 import iconDelete from '../../assets/icons8-lixeira-24.png';
 import iconEdit from '../../assets/icons8-editar-48.png';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function Card({ phone }: any): JSX.Element {
-  const router = useRouter();
-
-  const handleEdit = (id: number) => {
-    // criar rota para página de details
-    router.push(`listphones/details/${id}`);
-    console.log('editar')
-  }
-
+  const { push } = useRouter();
   const handleDelete = () => {
     console.log('deletar')
   }
@@ -48,34 +41,37 @@ export default function Card({ phone }: any): JSX.Element {
           <span className="overflow-hidden text-black max-w-20 whitespace-nowrap text-ellipsis">{phone.color}</span>
         </p>
       </div>
-      <div
-        className="relative left-72 bottom-22 w-12 flex justify-between pr-1"
-      >
-        <button
-          className="absolute right-6"
-          onClick={() => handleEdit(phone.id)}
-          type='button'
+      {
+        !(usePathname().includes('edit')) && (
+        <div
+          className="relative left-72 bottom-22 w-12 flex justify-between pr-1"
         >
-          <Image
-            src={iconEdit}
-            alt="edit"
-            width={18}
-            height={18}
-          />
-        </button>
-        <button
-          className="absolute right-0"
-          onClick={handleDelete}
-          type='button'
-        >
-          <Image
-            src={iconDelete}
-            alt="delete"
-            width={18}
-            height={18}
-          />
-        </button>
-      </div>
+          <button
+            className="absolute right-6"
+            onClick={() => push(`/listphones/${phone.id}/edit`) }
+            type='button'
+          >
+            <Image
+              src={iconEdit}
+              alt="edit"
+              width={18}
+              height={18}
+            />
+          </button>
+          <button
+            className="absolute right-0"
+            onClick={handleDelete}
+            type='button'
+          >
+            <Image
+              src={iconDelete}
+              alt="delete"
+              width={18}
+              height={18}
+            />
+          </button>
+        </div>
+      )}
     </div>
   )
 }

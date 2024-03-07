@@ -17,6 +17,10 @@ const config: Config = {
       width: {
         "85": "22rem",
         "18": "6.5rem",
+        "9/10": '90%',
+      },
+      height: {
+        "9/10": '90%',
       },
       spacing: {
         '22': '5.6rem',
