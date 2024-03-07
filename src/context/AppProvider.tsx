@@ -1,5 +1,5 @@
 'use client';
-import { requestLogin, requestRegister } from '@/api/requests';
+import { requestLogin, requestRegister, requestDeletePhones, requestAllPhones } from '@/api/requests';
 import React, { ReactNode, createContext, useState, useMemo, useContext, useEffect } from 'react';
 
 export const AppContext = createContext<any>({} as any);
@@ -27,13 +27,32 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     return false;
   };
 
+  const fetchDeletePhones = async (id: number): Promise<boolean> => {
+    const token = localStorage.getItem('token');
+    const response = await requestDeletePhones(id, token);
+    if (response) {
+      setListPhones(response.data);
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     console.log('AppProvider mounted');
   }, []);
 
-  const value = useMemo(() => (
-    { email, setEmail, userName, setUserName, password, setPassword, fetchLogin, setListPhones, listPhones}
-  ), [email, userName, password, listPhones]);
+  const value = useMemo(() => ({
+    email,
+    setEmail,
+    userName,
+    setUserName,
+    password,
+    setPassword,
+    fetchLogin,
+    setListPhones,
+    listPhones,
+    fetchDeletePhones,
+  }), [email, userName, password, listPhones]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
