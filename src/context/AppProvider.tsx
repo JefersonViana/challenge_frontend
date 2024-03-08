@@ -19,8 +19,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     
     if (response) {
       localStorage.setItem('token', response.token);
-      localStorage.setItem('phones', JSON.stringify(response.data));
-      setListPhones(response.data);
       setEmail('');
       setPassword('');
       setUserName('');

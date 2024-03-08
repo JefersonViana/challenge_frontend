@@ -6,20 +6,27 @@ import Filters from "@/components/filters/Filters";
 import { useRouter } from "next/navigation";
 import Info from "@/components/info/Info";
 import Link from "next/link";
+import { requestAllPhones } from "@/api/requests";
 
 export default function ListPhones() {
   const [list, setList] = useState<any>([]);
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { fetchDeletePhones } = AppStateProvider();
+  const { fetchDeletePhones, setListPhones } = AppStateProvider();
   const { push } = useRouter();
   
+  const getAllPhones = async (token: string) => {
+    const response = await requestAllPhones(token);
+    setListPhones(response.data);
+    setList(response.data);
+    setIsAuth(true);
+    setIsLoading(false);
+  }
+
   useEffect(() => {
-    const phones = localStorage.getItem('phones');
-    if (phones) {
-      setList(JSON.parse(phones));
-      setIsAuth(true);
-      setIsLoading(false);
+    const token = localStorage.getItem('token');
+    if (token) {
+      getAllPhones(token);
     } else {
       setIsLoading(false);
       setTimeout(() => {

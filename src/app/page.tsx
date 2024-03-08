@@ -38,8 +38,13 @@ export default function Home() {
     if (response) {
       const res = await fetchLogin(action);
       if (res) {
-        setWaning('Sucesso!');
-        router.push('/listphones');
+        if (action === 'login') {
+          setWaning('Sucesso!');
+          router.push('/listphones');
+        } else {
+          setIsLogin(!isLogin);
+          handleWaning('Usuário criado com sucesso!');
+        }
       } else {
         handleWaning('Usuário ou senha incorretos!');
       }
@@ -63,7 +68,11 @@ export default function Home() {
           className="text-2xl font-bold text-center text-slate-900"
         >LexartLabs</h1>
         {isLogin ? <FormLogin /> :  <FormRegister />}
-        <small className={`${warning === 'Sucesso!' ? 'text-green-700' : 'text-red-500'} relative bottom-10 h-5`}>{warning}</small>
+        {warning === 'Usuário criado com sucesso!' || warning === 'Sucesso!' ? (
+          <small className="text-green-700 relative bottom-10 h-5">{warning}</small>
+        ) : (
+          <small className="text-red-500 relative bottom-10 h-5">{warning}</small>
+        )}
         <div
           className="flex justify-between"
         >
