@@ -12,7 +12,7 @@ type Props = {
 
 export default function Card({ phone, deleteCard }: Props): JSX.Element {
   const { push } = useRouter();
-
+  const path = usePathname();
   return (
     <div
       className="flex flex-col justify-between my-2 w-full rounded shadow-md"
@@ -44,11 +44,12 @@ export default function Card({ phone, deleteCard }: Props): JSX.Element {
         </p>
       </div>
       {
-        !(usePathname().includes('edit')) && (
+        !(path.includes('edit')) && (
         <div
           className="relative left-72 bottom-22 w-12 flex justify-between pr-1"
         >
-          <button
+          {!(path.includes('adicionar')) && (
+            <button
             className="absolute right-6"
             onClick={() => push(`/listphones/${phone.id}/edit`) }
             type='button'
@@ -60,6 +61,7 @@ export default function Card({ phone, deleteCard }: Props): JSX.Element {
               height={18}
             />
           </button>
+          )}
           <button
             className="absolute right-0"
             onClick={() => deleteCard(phone.id)}
