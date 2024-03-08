@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Info from "@/components/info/Info";
 import Link from "next/link";
 import { requestAllPhones } from "@/api/requests";
+import Header from "@/components/header/Header";
 
 export default function ListPhones() {
   const [list, setList] = useState<any>([]);
@@ -47,6 +48,7 @@ export default function ListPhones() {
         <div
         className="flex flex-col items-center justify-center w-full bg-slate-900"
       >
+        <Header />
         <Filters setList={setList} />
         <section className="flex flex-col mt-8 items-center justify-center w-85">
           {list.map((phone: any) => (

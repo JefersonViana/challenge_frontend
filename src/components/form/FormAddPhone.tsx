@@ -1,9 +1,12 @@
 'use client';
 import { useState } from "react";
 import Card from "../card/Card";
+import iconAdd from '../../assets/adicionar.png';
+import Image from 'next/image';
 import { AppStateProvider } from "@/context/AppProvider";
 import { formatedList } from "@/utils/formatedList";
 import { useRouter } from "next/navigation";
+import Header from "../header/Header";
 
 export default function FormAddPhone() {
   const [name, setName] = useState('');
@@ -12,6 +15,7 @@ export default function FormAddPhone() {
   const [price, setPrice] = useState('');
   const [color, setColor] = useState('');
   const [warning, setWaning] = useState('');
+  const [count, setCount] = useState(0);
   const [hidden, setHidden] = useState(true);
   const [list, setList] = useState<any>([]);
   const { fetchAddPhones } = AppStateProvider();
@@ -38,6 +42,7 @@ export default function FormAddPhone() {
     if (success) {
       setHidden(true);
       setList([]);
+      setCount(0);
       setName('');
       setPrice('');
       setTimeout(() => {
@@ -50,16 +55,22 @@ export default function FormAddPhone() {
     }
   }
 
+  const handleDelete = (id: number) => {
+    const newList = list.filter((phone: any) => phone.id !== id);
+    setList(newList);
+  }
+
   const handleClick = () => {
     const isValid = validateTextFields();
     if (isValid) {
-      const newPhone = {name, brand, model, price, color, };
+      const newPhone = {name, brand, model, price, color, id: count};
       handleWaning('Adicionado!');
       setList([...list, newPhone]);
       setHidden(false);
       setBrand('');
       setModel('');
       setColor('');
+      setCount(count + 1);
     } else {
       handleWaning('Preencha os campos corretamente!');
     }
@@ -67,6 +78,7 @@ export default function FormAddPhone() {
 
   return (
     <div className="flex flex-col pt-2 pb-2 items-center justify-evenly w-full h-screen">
+      <Header />
       <form
         className="self-start flex flex-col w-full h-30 gap-1 items-center justify-center "
       >
@@ -135,21 +147,23 @@ export default function FormAddPhone() {
           </label>
           <button
             type="button"
-            onClick={handleClick}
-            className="bg-green-700 rounded-full p-2 w-8 h-8"></button>
+            onClick={handleClick}>
+              <Image src={iconAdd} alt="Adicionar" width={40} height={40} />
+            </button>
         </div>
         <small className={`${warning === 'Adicionado!' ? 'text-green-700' : 'text-red-500'} bottom-10 h-5 p-2`}>{warning}</small>
       </form>
-      <section className=" pb-2 flex flex-col items-center w-85 overflow-scroll h-3/5">
-        {list.map((phone: any) => (
-          <Card phone={phone} key={phone.model} deleteCard={() => {}}/>
-        ))}
+      <section className="pb-2 flex flex-col items-center w-85 overflow-scroll h-2/4">
+        {list.map((phone: any, index: number) => {
+          phone.id = index;
+          return <Card phone={phone} key={phone.model} deleteCard={handleDelete} />
+        })}
       </section>
       <button
         type="button"
         onClick={finished}
         disabled={hidden}
-        className="bg-green-700 rounded-md p-2 w-60 m-2"
+        className="bg-green-700 rounded-md p-2 w-60 m-2 fixed bottom-0 text-white"
       >
         Finalizar
       </button>

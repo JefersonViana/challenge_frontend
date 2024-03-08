@@ -1,6 +1,6 @@
-const LOGIN_URL = 'http://localhost:3001/login/';
-const REGISTER_URL = 'http://localhost:3001/register/';
-const PHONES_URL = 'http://localhost:3001/phones/';
+const LOGIN_URL = 'https://challenge-backend-hazel.vercel.app/login/';
+const REGISTER_URL = 'https://challenge-backend-hazel.vercel.app/register/';
+const PHONES_URL = 'https://challenge-backend-hazel.vercel.app/phones/';
 
 const requestRegister = async (email: string, password: string, username: string) => {
   try {
